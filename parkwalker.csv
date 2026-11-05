@@ -1310,7 +1310,7 @@ Lanhydrock;537;17.01.2026;https://www.parkrun.org.uk/lanhydrock/results/537/;П�
 Lanhydrock;538;31.01.2026;https://www.parkrun.org.uk/lanhydrock/results/538/;Подтверждён parkwalker;110;34:01;1:07:52
 Lanhydrock;539;07.02.2026;https://www.parkrun.org.uk/lanhydrock/results/539/;Проверено: parkwalker отсутствует;111;34:36;1:02:07
 Lanhydrock;540;14.02.2026;https://www.parkrun.org.uk/lanhydrock/results/540/;Проверено: parkwalker отсутствует;150;33:18;52:18
-Lanhydrock;541;;https://www.parkrun.org.uk/lanhydrock/results/541/;НЕ ПРОВЕРЕНО;;;
+Lanhydrock;541;21.02.2026;https://www.parkrun.org.uk/lanhydrock/results/541/;Проверено: parkwalker отсутствует;137;33:29;1:03:08
 Lanhydrock;542;28.02.2026;https://www.parkrun.org.uk/lanhydrock/results/542/;Проверено: parkwalker отсутствует;142;33:15;59:11
 Lanhydrock;543;07.03.2026;https://www.parkrun.org.uk/lanhydrock/results/543/;Проверено: parkwalker отсутствует;160;33:18;1:03:04
 Lanhydrock;544;14.03.2026;https://www.parkrun.org.uk/lanhydrock/results/544/;Проверено: parkwalker отсутствует;119;32:21;59:22
@@ -1908,3 +1908,45 @@ Alvaston;301;10.10.2026;https://www.parkrun.org.uk/alvaston/results/301/;Под�
 Alvaston;302;17.10.2026;https://www.parkrun.org.uk/alvaston/results/302/;Подтверждён parkwalker;395;30:40;1:05:41
 Alvaston;303;24.10.2026;https://www.parkrun.org.uk/alvaston/results/303/;Подтверждён parkwalker;383;29:51;59:02
 Alvaston;304;31.10.2026;https://www.parkrun.org.uk/alvaston/results/304/;Подтверждён parkwalker;;;
+Alvaston;101;01.10.2022;https://www.parkrun.org.uk/alvaston/results/101/;НЕ ПРОВЕРЕНО;;;
+Alvaston;102;08.10.2022;https://www.parkrun.org.uk/alvaston/results/102/;НЕ ПРОВЕРЕНО;;;
+Alvaston;103;15.10.2022;https://www.parkrun.org.uk/alvaston/results/103/;НЕ ПРОВЕРЕНО;;;
+Alvaston;104;22.10.2022;https://www.parkrun.org.uk/alvaston/results/104/;НЕ ПРОВЕРЕНО;;;
+Alvaston;105;29.10.2022;https://www.parkrun.org.uk/alvaston/results/105/;НЕ ПРОВЕРЕНО;;;
+Alvaston;106;05.11.2022;https://www.parkrun.org.uk/alvaston/results/106/;НЕ ПРОВЕРЕНО;;;
+Alvaston;107;12.11.2022;https://www.parkrun.org.uk/alvaston/results/107/;НЕ ПРОВЕРЕНО;;;
+Alvaston;108;19.11.2022;https://www.parkrun.org.uk/alvaston/results/108/;НЕ ПРОВЕРЕНО;;;
+Alvaston;109;26.11.2022;https://www.parkrun.org.uk/alvaston/results/109/;НЕ ПРОВЕРЕНО;;;
+Alvaston;110;03.12.2022;https://www.parkrun.org.uk/alvaston/results/110/;НЕ ПРОВЕРЕНО;;;
+Alvaston;111;17.12.2022;https://www.parkrun.org.uk/alvaston/results/111/;НЕ ПРОВЕРЕНО;;;
+Alvaston;112;24.12.2022;https://www.parkrun.org.uk/alvaston/results/112/;НЕ ПРОВЕРЕНО;;;
+Alvaston;113;25.12.2022;https://www.parkrun.org.uk/alvaston/results/113/;НЕ ПРОВЕРЕНО;;;
+Alvaston;114;31.12.2022;https://www.parkrun.org.uk/alvaston/results/114/;НЕ ПРОВЕРЕНО;;;
+Bressay;167;01.10.2022;https://www.parkrun.org.uk/bressay/results/167/;НЕ ПРОВЕРЕНО;;;
+Bressay;168;08.10.2022;https://www.parkrun.org.uk/bressay/results/168/;НЕ ПРОВЕРЕНО;;;
+Bressay;169;15.10.2022;https://www.parkrun.org.uk/bressay/results/169/;НЕ ПРОВЕРЕНО;;;
+Bressay;170;22.10.2022;https://www.parkrun.org.uk/bressay/results/170/;НЕ ПРОВЕРЕНО;;;
+Bressay;171;29.10.2022;https://www.parkrun.org.uk/bressay/results/171/;НЕ ПРОВЕРЕНО;;;
+Bressay;172;05.11.2022;https://www.parkrun.org.uk/bressay/results/172/;НЕ ПРОВЕРЕНО;;;
+Bressay;173;12.11.2022;https://www.parkrun.org.uk/bressay/results/173/;НЕ ПРОВЕРЕНО;;;
+Bressay;174;19.11.2022;https://www.parkrun.org.uk/bressay/results/174/;НЕ ПРОВЕРЕНО;;;
+Bressay;175;26.11.2022;https://www.parkrun.org.uk/bressay/results/175/;НЕ ПРОВЕРЕНО;;;
+Bressay;176;03.12.2022;https://www.parkrun.org.uk/bressay/results/176/;НЕ ПРОВЕРЕНО;;;
+Bressay;177;10.12.2022;https://www.parkrun.org.uk/bressay/results/177/;НЕ ПРОВЕРЕНО;;;
+Bressay;178;24.12.2022;https://www.parkrun.org.uk/bressay/results/178/;НЕ ПРОВЕРЕНО;;;
+Bressay;179;31.12.2022;https://www.parkrun.org.uk/bressay/results/179/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;896;01.10.2022;https://www.parkrun.org.uk/bushy/results/896/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;897;08.10.2022;https://www.parkrun.org.uk/bushy/results/897/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;898;15.10.2022;https://www.parkrun.org.uk/bushy/results/898/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;899;22.10.2022;https://www.parkrun.org.uk/bushy/results/899/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;900;29.10.2022;https://www.parkrun.org.uk/bushy/results/900/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;901;05.11.2022;https://www.parkrun.org.uk/bushy/results/901/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;902;12.11.2022;https://www.parkrun.org.uk/bushy/results/902/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;903;19.11.2022;https://www.parkrun.org.uk/bushy/results/903/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;904;26.11.2022;https://www.parkrun.org.uk/bushy/results/904/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;905;03.12.2022;https://www.parkrun.org.uk/bushy/results/905/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;906;10.12.2022;https://www.parkrun.org.uk/bushy/results/906/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;907;17.12.2022;https://www.parkrun.org.uk/bushy/results/907/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;908;24.12.2022;https://www.parkrun.org.uk/bushy/results/908/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;909;25.12.2022;https://www.parkrun.org.uk/bushy/results/909/;НЕ ПРОВЕРЕНО;;;
+Bushy Park;910;31.12.2022;https://www.parkrun.org.uk/bushy/results/910/;НЕ ПРОВЕРЕНО;;;
