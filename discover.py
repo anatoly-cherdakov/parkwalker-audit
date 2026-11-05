@@ -123,11 +123,20 @@ def write_csv(fields,rows):
 
 def main():
     fields,rows=load_csv()
-    # Critical: finish the original 1909 audit before discovering additional venues.
-    pending_original=sum(r['Статус']==UNK for r in rows[:1909])
+    # Prefer finishing all 1909 records first. A permanently blocked page must
+    # not prevent the broader UK history audit: permit discovery after each
+    # remaining original URL has already had three separate attempts.
+    pending_original=[r for r in rows[:1909] if r['Статус']==UNK]
     if pending_original:
-        print('DISCOVERY PAUSED: original 1909 still have',pending_original,'unchecked; no new venues added.',flush=True)
-        return
+        attempts_path=Path('attempts.json')
+        attempts=json.loads(attempts_path.read_text(encoding='utf-8')) if attempts_path.exists() else {}
+        untouched=sum(attempts.get(r['Ссылка'],0)<3 for r in pending_original)
+        if untouched:
+            print('DISCOVERY PAUSED: original records remaining',len(pending_original),
+                  'with',untouched,'requiring initial retries.',flush=True)
+            return
+        print('DISCOVERY STARTING with',len(pending_original),
+              'blocked original records preserved as NOT CHECKED.',flush=True)
     if DONE.exists():
         print('DISCOVERY ALREADY COMPLETE. No new/current events will be checked.',flush=True)
         return
