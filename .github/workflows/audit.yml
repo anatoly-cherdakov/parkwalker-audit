@@ -7,7 +7,7 @@ on:
       - '.github/workflows/audit.yml'
       - 'parkwalker.csv'
   schedule:
-    - cron: '21 */6 * * *'
+    - cron: '7,22,37,52 * * * *'
 permissions:
   contents: write
 concurrency:
