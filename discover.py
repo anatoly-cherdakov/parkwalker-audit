@@ -73,13 +73,13 @@ def eventhistory(html,slug):
     for tr in soup.find_all('tr'):
         numtxt=tr.get('data-parkrun') or tr.get('data-event') or ''
         datetxt=tr.get('data-date') or ''
-        a=tr.find('a',href=re.compile(r'/results/\\d+/?(?:[?#]|$)|runSeqNumber=\\d+'))
+        a=tr.find('a',href=re.compile(r'/results/\d+/?(?:[?#]|$)|runSeqNumber=\d+'))
         if not numtxt and a:
-            m=re.search(r'/results/(\\d+)|runSeqNumber=(\\d+)',a.get('href',''))
+            m=re.search(r'/results/(\d+)|runSeqNumber=(\d+)',a.get('href',''))
             if m:numtxt=next(x for x in m.groups() if x)
         cells=tr.find_all('td',recursive=False)
         if not numtxt and cells:
-            m=re.search(r'^#?\\s*(\\d{1,5})\\s*$',cells[0].get_text(' ',strip=True))
+            m=re.search(r'^#?\s*(\d{1,5})\s*$',cells[0].get_text(' ',strip=True))
             if m: numtxt=m.group(1)
         if not str(numtxt).isdigit():continue
         if not datetxt:
