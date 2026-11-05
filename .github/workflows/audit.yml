@@ -8,15 +8,18 @@ on:
       - 'parkwalker.csv'
   schedule:
     - cron: '7,22,37,52 * * * *'
+
 permissions:
   contents: write
+
 concurrency:
   group: parkwalker-audit
   cancel-in-progress: false
+
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,28 +30,35 @@ jobs:
       - name: Probe live parkrun access
         run: python preflight.py
       - name: Verify CSV is ready
-        id: ready
         shell: bash
         run: |
-          if [ -f parkwalker.csv ]; then
-            echo 'available=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'available=false' >> "$GITHUB_OUTPUT"
-            echo 'Upload the existing 1909-row parkwalker.csv to start the audit.'
-          fi
-      - name: Collect and checkpoint
-        if: steps.ready.outputs.available == 'true'
+          test -f parkwalker.csv || { echo 'Missing parkwalker.csv'; exit 1; }
+      - name: Run multiple batches and checkpoint after each batch
         env:
           AUDIT_LIMIT: '60'
-        run: python collect.py
-      - name: Commit verified results
-        if: steps.ready.outputs.available == 'true' && always()
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add parkwalker.csv
-          if [ -f attempts.json ]; then git add attempts.json; fi
-          if ! git diff --cached --quiet; then
-            git commit -m 'Checkpoint verified parkwalker results'
-            git push
-          fi
+          start=$SECONDS
+          for round in $(seq 1 40); do
+            pending=$(python -c 'import csv; print(sum(r["Статус"]=="НЕ ПРОВЕРЕНО" for r in csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")))')
+            echo "ROUND $round: remaining $pending"
+            if [ "$pending" -eq 0 ]; then
+              echo 'ALL ROWS VERIFIED'
+              break
+            fi
+            if [ "$((SECONDS-start))" -ge 18000 ]; then
+              echo 'Time budget reached; next scheduled or manual run will continue.'
+              break
+            fi
+            python collect.py || echo 'Collector reported an error; saving available checkpoint.'
+            git add parkwalker.csv
+            if [ -f attempts.json ]; then git add attempts.json; fi
+            if ! git diff --cached --quiet; then
+              git commit -m "Checkpoint parkwalker round $round"
+              git push
+            fi
+          done
+          python -c 'import csv,collections; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print("FINAL SUMMARY:",len(r),dict(collections.Counter(x["Статус"] for x in r)))'
