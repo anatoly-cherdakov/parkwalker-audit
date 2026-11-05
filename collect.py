@@ -121,15 +121,15 @@ def main():
         r=csv.DictReader(f,delimiter=';')
         fields=r.fieldnames
         rows=list(r)
-    if len(rows)!=1909 or not all(k in fields for k in FIELDS):
-        print('ERROR: expected all 1909 records and standard CSV columns; refusing to overwrite.',file=sys.stderr)
+    if len(rows)<1909 or not all(k in fields for k in FIELDS):
+        print('ERROR: missing original 1909 records or standard CSV columns; refusing to overwrite.',file=sys.stderr)
         sys.exit(2)
     attempts=Path('attempts.json')
     tries=json.loads(attempts.read_text()) if attempts.exists() else {}
-    queue=[r for r in rows if r['Статус']==UNK]
-    queue.sort(key=lambda r:(tries.get(r['Ссылка'],0),rows.index(r)))
+    queue=[(i,r) for i,r in enumerate(rows) if r['Статус']==UNK]
+    queue.sort(key=lambda pair:(tries.get(pair[1]['Ссылка'],0),pair[0]))
     limit=int(os.getenv('AUDIT_LIMIT','60'))
-    queue=queue[:limit]
+    queue=[item[1] for item in queue[:limit]]
     sess=requests.Session();sess.headers.update(HEADERS)
     for i,row in enumerate(queue,1):
         url=row['Ссылка']; found=None;errors=[]
