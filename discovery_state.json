@@ -23,7 +23,11 @@
     "albert",
     "aldenham",
     "alderfordlake",
-    "alderleypark"
+    "alderleypark",
+    "alexandra",
+    "allypally"
   ],
-  "retries": {}
+  "retries": {
+    "aliceholt": 1
+  }
 }
