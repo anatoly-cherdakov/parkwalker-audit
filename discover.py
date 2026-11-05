@@ -41,7 +41,7 @@ def dateparse(text):
             except ValueError: pass
     return None
 
-def get_venue_list(sess):
+def get_venue_list(sess,original_rows):
     # Official parkrun GeoJSON; UK country code 97, standard 5k series ID 1.
     resp=sess.get('https://images.parkrun.com/events.json',timeout=40)
     resp.raise_for_status()
@@ -53,7 +53,14 @@ def get_venue_list(sess):
         slug=str(p.get('eventname') or '').strip().lower()
         if not re.fullmatch(r'[a-z0-9-]+',slug): continue
         events.append({'slug':slug,'name':str(p.get('EventShortName') or slug)})
-    events=sorted({e['slug']:e for e in events}.values(),key=lambda e:e['slug'])
+    # Keep all 10 original venues even if the current GeoJSON omits a
+    # temporarily inactive or now-closed venue.
+    by_slug={e['slug']:e for e in events}
+    for row in original_rows[:1909]:
+        slug=urlparse(row['Ссылка']).path.strip('/').split('/')[0].lower()
+        if re.fullmatch(r'[a-z0-9-]+',slug) and slug not in by_slug:
+            by_slug[slug]={'slug':slug,'name':row['Локация']}
+    events=sorted(by_slug.values(),key=lambda e:e['slug'])
     if len(events)<500:
         raise ValueError('Too few UK 5k venues returned: '+str(len(events)))
     return events
@@ -149,7 +156,7 @@ def main():
     sess=requests.Session()
     sess.headers.update(HEADERS)
     if not VENUES.exists():
-        venues=get_venue_list(sess)
+        venues=get_venue_list(sess,rows)
         atomic_json(VENUES,venues)
         print('FROZEN UK 5K VENUE LIST:',len(venues),flush=True)
     else:
