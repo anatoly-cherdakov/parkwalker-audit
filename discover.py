@@ -33,8 +33,8 @@ def atomic_json(path, obj):
 def dateparse(text):
     text=text.strip()
     for pattern,fmt in ((r'\b(20\d\d-\d\d-\d\d)\b','%Y-%m-%d'),
-                        (r'\b(\d{1,2}/\d{1,2}/\d{2,4})\b','%m/%d/%Y'),
-                        (r'\b(\d{1,2}/\d{1,2}/\d{2})\b','%m/%d/%y'),
+                        (r'\b(\d{1,2}/\d{1,2}/\d{2,4})\b','%d/%m/%Y'),
+                        (r'\b(\d{1,2}/\d{1,2}/\d{2})\b','%d/%m/%y'),
                         (r'\b(\d{1,2}\.\d{1,2}\.20\d\d)\b','%d.%m.%Y')):
         for m in re.finditer(pattern,text):
             try: return datetime.strptime(m.group(1),fmt).date()
@@ -63,32 +63,38 @@ def eventhistory(html,slug):
     title=soup.get_text(' ',strip=True)
     if re.search(r'confirm you are human|complete the security check|captcha',title,re.I):
         raise ValueError('CAPTCHA')
-    if not re.search('event history',title,re.I) and not re.search('veranstaltungshistorie|история',title,re.I):
-        raise ValueError('Missing event history heading')
+    # Current parkrun event history uses tr.Results-table-row with data-parkrun
+    # and data-date rather than requiring a link in each table row.
+    table=soup.select_one('table#results, table.Results-table, table')
+    if not table:
+        raise ValueError('Missing event history table')
     events={}
-    for table in soup.find_all('table'):
-        found=0
-        for tr in table.find_all('tr'):
-            a=tr.find('a',href=re.compile(r'/results/\d+/?(?:[?#]|$)'))
-            if not a:continue
-            href=a.get('href','')
-            m=re.search(r'/results/(\d+)',href)
-            if not m: continue
-            n=int(m.group(1))
-            cells=tr.find_all(['td'],recursive=False)
-            if len(cells)<2: continue
-            # Date is in the second column, before first-finisher details.
-            dt=dateparse(cells[1].get_text(' ',strip=True))
-            if not dt: continue
-            found+=1
-            if START<=dt<=END:
-                events[n]=dt.strftime('%d.%m.%Y')
-        if found>=5: break
-    if not events and not re.search('no events|no results',title,re.I):
-        # A newer venue may have no eligible runs; this is valid only if
-        # a real dated history table was parsed.
-        if not any(re.search(r'/results/\d+',str(t)) for t in soup.find_all('table')):
-            raise ValueError('No parseable dated event history')
+    parsed=0
+    for tr in soup.find_all('tr'):
+        numtxt=tr.get('data-parkrun') or tr.get('data-event') or ''
+        datetxt=tr.get('data-date') or ''
+        a=tr.find('a',href=re.compile(r'/results/\\d+/?(?:[?#]|$)|runSeqNumber=\\d+'))
+        if not numtxt and a:
+            m=re.search(r'/results/(\\d+)|runSeqNumber=(\\d+)',a.get('href',''))
+            if m:numtxt=next(x for x in m.groups() if x)
+        cells=tr.find_all('td',recursive=False)
+        if not numtxt and cells:
+            m=re.search(r'^#?\\s*(\\d{1,5})\\s*$',cells[0].get_text(' ',strip=True))
+            if m: numtxt=m.group(1)
+        if not str(numtxt).isdigit():continue
+        if not datetxt:
+            if len(cells)>1: datetxt=cells[1].get_text(' ',strip=True)
+            elif a: datetxt=a.get_text(' ',strip=True)
+        dt=dateparse(datetxt)
+        if not dt:
+            # Date is often the anchor in the first table cell.
+            if cells:dt=dateparse(cells[0].get_text(' ',strip=True))
+        if not dt: continue
+        parsed+=1
+        if START<=dt<=END:
+            events[int(numtxt)]=dt.strftime('%d.%m.%Y')
+    if parsed==0:
+        raise ValueError('No dated event rows parsed: do not mark venue complete')
     return events
 
 def pull_history(sess,slug):
@@ -154,7 +160,8 @@ def main():
     seen={(r['Ссылка'].rstrip('/')).lower() for r in rows}
     # Only venues from frozen inventory: no recurring/new event lookup.
     undone=[v for v in venues if v['slug'] not in complete]
-    undone.sort(key=lambda v:(retries.get(v['slug'],0),v['slug']))
+    original_slugs={urlparse(r['Ссылка']).path.strip('/').split('/')[0] for r in rows[:1909]}
+    undone.sort(key=lambda v:(v['slug'] not in original_slugs,retries.get(v['slug'],0),v['slug']))
     print('VENUES awaiting discovery:',len(undone),flush=True)
     for v in undone[:FETCH_LIMIT]:
         slug=v['slug']
