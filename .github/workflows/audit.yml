@@ -6,6 +6,8 @@ on:
     paths:
       - '.github/workflows/audit.yml'
       - 'parkwalker.csv'
+      - 'collect.py'
+      - 'discover.py'
   schedule:
     - cron: '7,22,37,52 * * * *'
 
@@ -43,22 +45,31 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           start=$SECONDS
           for round in $(seq 1 40); do
+            if [ -f audit_complete.json ]; then
+              echo 'HISTORICAL AUDIT ALREADY COMPLETE; stopping.'
+              break
+            fi
             pending=$(python -c 'import csv; print(sum(r["Статус"]=="НЕ ПРОВЕРЕНО" for r in csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")))')
             echo "ROUND $round: remaining $pending"
             if [ "$pending" -eq 0 ]; then
-              echo 'ALL ROWS VERIFIED'
-              break
+              echo 'CURRENT QUEUE DONE; discover more historical events.'
             fi
             if [ "$((SECONDS-start))" -ge 18000 ]; then
               echo 'Time budget reached; next scheduled or manual run will continue.'
               break
             fi
-            python collect.py || echo 'Collector reported an error; saving available checkpoint.'
+            if [ "$pending" -gt 0 ]; then
+              python collect.py || echo 'Collector reported an error; saving available checkpoint.'
+            fi
+            python discover.py || echo 'Discovery reported an error; saving available checkpoint.'
             git add parkwalker.csv
-            if [ -f attempts.json ]; then git add attempts.json; fi
+            for file in attempts.json venues.json discovery_state.json audit_complete.json; do
+              if [ -f "$file" ]; then git add "$file"; fi
+            done
             if ! git diff --cached --quiet; then
               git commit -m "Checkpoint parkwalker round $round"
               git push
             fi
           done
           python -c 'import csv,collections; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print("FINAL SUMMARY:",len(r),dict(collections.Counter(x["Статус"] for x in r)))'
+          if [ -f audit_complete.json ]; then echo 'ONE-TIME HISTORICAL AUDIT FINISHED'; fi
