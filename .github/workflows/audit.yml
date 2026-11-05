@@ -1,0 +1,54 @@
+name: Audit parkwalker
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit.yml'
+      - 'parkwalker.csv'
+  schedule:
+    - cron: '21 */6 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: parkwalker-audit
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Probe live parkrun access
+        run: python preflight.py
+      - name: Verify CSV is ready
+        id: ready
+        shell: bash
+        run: |
+          if [ -f parkwalker.csv ]; then
+            echo 'available=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'available=false' >> "$GITHUB_OUTPUT"
+            echo 'Upload the existing 1909-row parkwalker.csv to start the audit.'
+          fi
+      - name: Collect and checkpoint
+        if: steps.ready.outputs.available == 'true'
+        env:
+          AUDIT_LIMIT: '60'
+        run: python collect.py
+      - name: Commit verified results
+        if: steps.ready.outputs.available == 'true' && always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add parkwalker.csv
+          if [ -f attempts.json ]; then git add attempts.json; fi
+          if ! git diff --cached --quiet; then
+            git commit -m 'Checkpoint verified parkwalker results'
+            git push
+          fi
