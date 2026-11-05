@@ -68,7 +68,26 @@ jobs:
             done
             if ! git diff --cached --quiet; then
               git commit -m "Checkpoint parkwalker round $round"
-              git push
+              # Code updates may land while a long-running audit is working.
+              # Rebase the checkpoint (normally CSV/state only) before pushing.
+              pushed=0
+              for attempt in 1 2 3 4 5; do
+                if git push origin HEAD:main; then
+                  pushed=1
+                  break
+                fi
+                echo "Push rejected, rebasing on current main (attempt $attempt)"
+                git fetch origin main
+                if ! git rebase origin/main; then
+                  git rebase --abort || true
+                  echo "ERROR: checkpoint conflict; do not discard local CSV."
+                  exit 1
+                fi
+              done
+              if [ "$pushed" -ne 1 ]; then
+                echo "ERROR: could not publish checkpoint after retries."
+                exit 1
+              fi
             fi
           done
           python -c 'import csv,collections; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print("FINAL SUMMARY:",len(r),dict(collections.Counter(x["Статус"] for x in r)))'
