@@ -638,7 +638,9 @@
     "reigatepriory",
     "rendleshamforest",
     "richmond",
-    "rickmansworth"
+    "rickmansworth",
+    "risingsun",
+    "riverfront"
   ],
   "retries": {
     "aliceholt": 1,
@@ -667,6 +669,7 @@
     "millfield": 1,
     "penistone": 1,
     "perth": 1,
-    "polkemmetcountry": 1
+    "polkemmetcountry": 1,
+    "riddlesdown": 1
   }
 }
