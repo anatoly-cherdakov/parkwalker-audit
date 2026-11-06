@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: parkwalker-audit
@@ -36,6 +37,7 @@ jobs:
         run: |
           test -f parkwalker.csv || { echo 'Missing parkwalker.csv'; exit 1; }
       - name: Run multiple batches and checkpoint after each batch
+        id: collect
         env:
           AUDIT_LIMIT: '60'
         shell: bash
@@ -44,6 +46,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           start=$SECONDS
+          original_progress=$(python -c 'import csv,json,pathlib; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); p=pathlib.Path("discovery_state.json"); d=json.loads(p.read_text()) if p.exists() else {}; print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r)+len(d.get("complete",[])))')
           for round in $(seq 1 40); do
             if [ -f audit_complete.json ]; then
               echo 'HISTORICAL AUDIT ALREADY COMPLETE; stopping.'
@@ -92,3 +95,18 @@ jobs:
           done
           python -c 'import csv,collections; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print("FINAL SUMMARY:",len(r),dict(collections.Counter(x["Статус"] for x in r)))'
           if [ -f audit_complete.json ]; then echo 'ONE-TIME HISTORICAL AUDIT FINISHED'; fi
+          current_progress=$(python -c 'import csv,json,pathlib; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); p=pathlib.Path("discovery_state.json"); d=json.loads(p.read_text()) if p.exists() else {}; print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r)+len(d.get("complete",[])))')
+          echo "progressed=$([ "$current_progress" -gt "$original_progress" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "PROGRESS: $original_progress -> $current_progress"
+      - name: Continue audit after successful batch without depending on cron
+        if: ${{ success() && steps.collect.outputs.progressed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if [ -f audit_complete.json ]; then
+            echo 'Historical audit complete; not scheduling another run.'
+            exit 0
+          fi
+          gh workflow run audit.yml --ref main
+          echo 'NEXT AUDIT RUN DISPATCHED'
