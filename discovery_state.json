@@ -208,7 +208,9 @@
     "conwy",
     "conynghamhall",
     "corby",
-    "coronationpark"
+    "coronationpark",
+    "cotsfordfields",
+    "coventry"
   ],
   "retries": {
     "aliceholt": 1,
@@ -217,6 +219,7 @@
     "bideford": 1,
     "centrevale": 1,
     "cheadlehulme": 1,
-    "coftonpark": 1
+    "coftonpark": 1,
+    "cosmestonlakes": 1
   }
 }
