@@ -603,7 +603,9 @@
     "philipspark",
     "phoenix",
     "plantationforest",
-    "plymvalley"
+    "plymvalley",
+    "pocket",
+    "pollok"
   ],
   "retries": {
     "aliceholt": 1,
@@ -631,6 +633,7 @@
     "merthyr": 1,
     "millfield": 1,
     "penistone": 1,
-    "perth": 1
+    "perth": 1,
+    "polkemmetcountry": 1
   }
 }
