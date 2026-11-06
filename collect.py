@@ -126,10 +126,61 @@ def main():
         sys.exit(2)
     attempts=Path('attempts.json')
     tries=json.loads(attempts.read_text()) if attempts.exists() else {}
-    queue=[(i,r) for i,r in enumerate(rows) if r['Статус']==UNK]
-    queue.sort(key=lambda pair:(tries.get(pair[1]['Ссылка'],0),pair[0]))
+    # Finish a partially verified venue before starting another one.
+    # A venue's identity comes from its results URL, not its display name.
+    def venue(row):
+        return urlparse(row['Ссылка']).path.strip('/').split('/')[0].lower()
+
+    grouped={}
+    for index,row in enumerate(rows):
+        key=venue(row)
+        g=grouped.setdefault(key,{'checked':0,'pending':[]})
+        if row['Статус']==UNK:
+            g['pending'].append((index,row))
+        else:
+            g['checked']+=1
+
     limit=int(os.getenv('AUDIT_LIMIT','60'))
-    queue=[item[1] for item in queue[:limit]]
+    max_attempts=int(os.getenv('VENUE_FOCUS_ATTEMPTS','5'))
+    # Focus on whichever existing partially-checked venue can be finished
+    # soonest. Do not let permanently blocked pages starve other venues.
+    partial=[]
+    for slug,g in grouped.items():
+        if g['checked']==0 or not g['pending']:
+            continue
+        eligible=[p for p in g['pending']
+                  if tries.get(p[1]['Ссылка'],0)<max_attempts]
+        if eligible:
+            partial.append((len(g['pending']),-g['checked'],slug,eligible))
+    if partial:
+        partial.sort(key=lambda item:item[:3])
+        _,_,focus,eligible=partial[0]
+        eligible.sort(key=lambda item:(tries.get(item[1]['Ссылка'],0),item[0]))
+        queue=[item[1] for item in eligible[:limit]]
+        print('VENUE FOCUS',focus,'checked',grouped[focus]['checked'],
+              'remaining',len(grouped[focus]['pending']),
+              'attempting',len(queue),flush=True)
+    else:
+        # Unrecoverable pages stay NOT CHECKED, rather than being declared
+        # verified. Start another venue only after trying unfinished ones.
+        # Prefer never-before-verified venues with fewest remaining results.
+        new_venues=[]
+        for slug,g in grouped.items():
+            if g['checked']==0 and g['pending']:
+                elig=[p for p in g['pending']
+                      if tries.get(p[1]['Ссылка'],0)<max_attempts]
+                if elig: new_venues.append((len(g['pending']),slug,elig))
+        if new_venues:
+            new_venues.sort(key=lambda item:(item[0],item[1]))
+            _,focus,eligible=new_venues[0]
+        else:
+            # All venues have exhausted normal retries: recheck the least
+            # attempted pages, without silently treating them as complete.
+            focus='retry backlog'
+            eligible=[(i,r) for i,r in enumerate(rows) if r['Статус']==UNK]
+        eligible.sort(key=lambda item:(tries.get(item[1]['Ссылка'],0),item[0]))
+        queue=[item[1] for item in eligible[:limit]]
+        print('VENUE FOCUS',focus,'attempting',len(queue),flush=True)
     sess=requests.Session();sess.headers.update(HEADERS)
     for i,row in enumerate(queue,1):
         url=row['Ссылка']; found=None;errors=[]
