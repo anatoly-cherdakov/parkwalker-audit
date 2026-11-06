@@ -263,7 +263,9 @@
     "eastgrinstead",
     "eastholmesfield",
     "eastleigh",
-    "eastpark"
+    "eastpark",
+    "eastville",
+    "edenbrookcountry"
   ],
   "retries": {
     "aliceholt": 1,
@@ -274,6 +276,7 @@
     "cheadlehulme": 1,
     "coftonpark": 1,
     "cosmestonlakes": 1,
-    "dintonpastures": 1
+    "dintonpastures": 1,
+    "ecos": 1
   }
 }
