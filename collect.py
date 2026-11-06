@@ -140,47 +140,44 @@ def main():
         else:
             g['checked']+=1
 
-    limit=int(os.getenv('AUDIT_LIMIT','60'))
-    max_attempts=int(os.getenv('VENUE_FOCUS_ATTEMPTS','5'))
-    # Focus on whichever existing partially-checked venue can be finished
-    # soonest. Do not let permanently blocked pages starve other venues.
-    partial=[]
-    for slug,g in grouped.items():
-        if g['checked']==0 or not g['pending']:
-            continue
-        eligible=[p for p in g['pending']
-                  if tries.get(p[1]['Ссылка'],0)<max_attempts]
-        if eligible:
-            partial.append((len(g['pending']),-g['checked'],slug,eligible))
-    if partial:
-        partial.sort(key=lambda item:item[:3])
-        _,_,focus,eligible=partial[0]
-        eligible.sort(key=lambda item:(tries.get(item[1]['Ссылка'],0),item[0]))
-        queue=[item[1] for item in eligible[:limit]]
-        print('VENUE FOCUS',focus,'checked',grouped[focus]['checked'],
-              'remaining',len(grouped[focus]['pending']),
-              'attempting',len(queue),flush=True)
+    # Strict scope: the partially checked venues at the user's original instruction.
+    # Never expand scope, even if every remaining page is blocked.
+    focus_file=Path('focus_venues.json')
+    if focus_file.exists():
+        focus=set(json.loads(focus_file.read_text(encoding='utf-8')))
     else:
-        # Unrecoverable pages stay NOT CHECKED, rather than being declared
-        # verified. Start another venue only after trying unfinished ones.
-        # Prefer never-before-verified venues with fewest remaining results.
-        new_venues=[]
-        for slug,g in grouped.items():
-            if g['checked']==0 and g['pending']:
-                elig=[p for p in g['pending']
-                      if tries.get(p[1]['Ссылка'],0)<max_attempts]
-                if elig: new_venues.append((len(g['pending']),slug,elig))
-        if new_venues:
-            new_venues.sort(key=lambda item:(item[0],item[1]))
-            _,focus,eligible=new_venues[0]
-        else:
-            # All venues have exhausted normal retries: recheck the least
-            # attempted pages, without silently treating them as complete.
-            focus='retry backlog'
-            eligible=[(i,r) for i,r in enumerate(rows) if r['Статус']==UNK]
-        eligible.sort(key=lambda item:(tries.get(item[1]['Ссылка'],0),item[0]))
-        queue=[item[1] for item in eligible[:limit]]
-        print('VENUE FOCUS',focus,'attempting',len(queue),flush=True)
+        import io, subprocess
+        snapshot='0b2a019c997e50e20493086a27b076b740e928e7'
+        try:
+            old_csv=subprocess.check_output(['git','show',snapshot+':parkwalker.csv'])
+        except subprocess.CalledProcessError as exc:
+            raise RuntimeError('Cannot load original venue snapshot; refusing to expand audit scope') from exc
+        old_rows=list(csv.DictReader(io.StringIO(old_csv.decode('utf-8-sig')),delimiter=';'))
+        old_group={}
+        for old_row in old_rows:
+            slug=venue(old_row)
+            counts=old_group.setdefault(slug,[0,0])
+            counts[0 if old_row['Статус']==UNK else 1]+=1
+        focus={slug for slug,(pending,checked) in old_group.items() if pending>0 and checked>0}
+        if len(focus)!=53:
+            raise RuntimeError(f'Expected 53 partially checked venues in frozen snapshot, found {len(focus)}; refusing to broaden scope')
+        focus_file.write_text(json.dumps(sorted(focus),ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+    limit=int(os.getenv('AUDIT_LIMIT','60'))
+    partial=[]
+    for slug in sorted(focus):
+        g=grouped.get(slug)
+        if g and g['pending']:
+            partial.append((len(g['pending']),-g['checked'],slug,g['pending']))
+    if not partial:
+        print('FOCUS: no pending rows in original 53 venues. No other venues will be checked.',flush=True)
+        return
+    partial.sort(key=lambda item:item[:3])
+    _,_,chosen,eligible=partial[0]
+    eligible.sort(key=lambda item:(tries.get(item[1]['Ссылка'],0),item[0]))
+    queue=[row for _,row in eligible[:limit]]
+    print('STRICT VENUE FOCUS',chosen,'original_venues',len(focus),
+          'venues_remaining',len(partial),'checked',grouped[chosen]['checked'],
+          'pending',len(grouped[chosen]['pending']),'attempting',len(queue),flush=True)
     sess=requests.Session();sess.headers.update(HEADERS)
     for i,row in enumerate(queue,1):
         url=row['Ссылка']; found=None;errors=[]
