@@ -34,9 +34,12 @@
     "antrim",
     "armagh",
     "armley",
-    "arrowvalley"
+    "arrowvalley",
+    "aruwrittle",
+    "ashbournerecreationground"
   ],
   "retries": {
-    "aliceholt": 1
+    "aliceholt": 1,
+    "ashford": 1
   }
 }
