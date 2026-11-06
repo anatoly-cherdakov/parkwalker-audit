@@ -83,11 +83,14 @@
     "bevendeandown",
     "beverleywestwood",
     "bexley",
-    "bicester"
+    "bicester",
+    "billericay",
+    "birchallplayingfields"
   ],
   "retries": {
     "aliceholt": 1,
     "ashford": 1,
-    "beckton": 1
+    "beckton": 1,
+    "bideford": 1
   }
 }
