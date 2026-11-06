@@ -157,12 +157,15 @@
     "castlewoods",
     "catford",
     "catton",
-    "centralplymouth"
+    "centralplymouth",
+    "chaddertonhall",
+    "chalkwellbeach"
   ],
   "retries": {
     "aliceholt": 1,
     "ashford": 1,
     "beckton": 1,
-    "bideford": 1
+    "bideford": 1,
+    "centrevale": 1
   }
 }
