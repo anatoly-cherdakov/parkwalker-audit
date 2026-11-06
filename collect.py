@@ -161,7 +161,7 @@ def main():
         focus={slug for slug,(pending,checked) in old_group.items() if pending>0 and checked>0}
         if len(focus)!=53:
             raise RuntimeError(f'Expected 53 partially checked venues in frozen snapshot, found {len(focus)}; refusing to broaden scope')
-        focus_file.write_text(json.dumps(sorted(focus),ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')
+        focus_file.write_text(json.dumps(sorted(focus),ensure_ascii=False,indent=2),encoding='utf-8')
     limit=int(os.getenv('AUDIT_LIMIT','60'))
     partial=[]
     for slug in sorted(focus):
