@@ -237,7 +237,9 @@
     "dentondene",
     "dereham",
     "derrycity",
-    "derrynoidforest"
+    "derrynoidforest",
+    "dewsbury",
+    "didcot"
   ],
   "retries": {
     "aliceholt": 1,
@@ -247,6 +249,7 @@
     "centrevale": 1,
     "cheadlehulme": 1,
     "coftonpark": 1,
-    "cosmestonlakes": 1
+    "cosmestonlakes": 1,
+    "dintonpastures": 1
   }
 }
