@@ -405,7 +405,9 @@
     "huddersfield",
     "hull",
     "humberbridge",
-    "hunstantonpromenade"
+    "hunstantonpromenade",
+    "huntingdon",
+    "hyndburn"
   ],
   "retries": {
     "aliceholt": 1,
@@ -427,6 +429,7 @@
     "gunpowder": 1,
     "hereford": 1,
     "heritagecoastalpatheasington": 1,
-    "herringtoncountry": 1
+    "herringtoncountry": 1,
+    "hyde": 1
   }
 }
