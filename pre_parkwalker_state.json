@@ -11,8 +11,24 @@
     "aeforest",
     "agnew",
     "albert",
-    "aldenham"
+    "aldenham",
+    "alderfordlake",
+    "alderleypark",
+    "alexandra",
+    "allypally",
+    "alness",
+    "altonwater",
+    "alvaston",
+    "anagachwoods",
+    "ancholmevalleyway",
+    "andover",
+    "antrim",
+    "armagh"
   ],
   "history_attempts": {},
-  "event_attempts": {}
+  "event_attempts": {
+    "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/62/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/65/": 1
+  }
 }
