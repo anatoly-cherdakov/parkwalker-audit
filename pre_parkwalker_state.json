@@ -32,12 +32,24 @@
     "aviemore",
     "aylesbury",
     "ayr",
-    "babbsmill"
+    "babbsmill",
+    "banbury",
+    "bangor",
+    "banstead",
+    "barclay",
+    "barking",
+    "barnsley",
+    "barnstaple",
+    "barrow",
+    "barryisland",
+    "bartleypark",
+    "basildon"
   ],
   "history_attempts": {
     "armley": 1,
     "arrowvalley": 1,
-    "averyhill": 1
+    "averyhill": 1,
+    "basingstoke": 1
   },
   "event_attempts": {
     "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
@@ -49,6 +61,9 @@
     "https://www.parkrun.org.uk/aberbeeg/results/91/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/92/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/94/": 1,
-    "https://www.parkrun.org.uk/aberbeeg/results/101/": 1
+    "https://www.parkrun.org.uk/aberbeeg/results/101/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/21/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/22/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/24/": 1
   }
 }
