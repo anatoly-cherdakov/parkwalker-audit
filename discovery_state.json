@@ -511,7 +511,9 @@
     "meadowmill",
     "medina",
     "melksham",
-    "meltonmowbray"
+    "meltonmowbray",
+    "meonvalleytrailwickham",
+    "merseaisland"
   ],
   "retries": {
     "aliceholt": 1,
@@ -535,6 +537,7 @@
     "heritagecoastalpatheasington": 1,
     "herringtoncountry": 1,
     "hyde": 1,
-    "kirkharlecourtyard": 1
+    "kirkharlecourtyard": 1,
+    "merthyr": 1
   }
 }
