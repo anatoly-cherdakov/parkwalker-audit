@@ -79,13 +79,25 @@
     "eastholmesfield",
     "edinburgh",
     "elemorepark",
-    "flintcastle"
+    "flintcastle",
+    "fordingbridgerecreationground",
+    "franksfarm",
+    "greenpark",
+    "greenwichpeninsula",
+    "grizedaleforest",
+    "haughmondhill",
+    "highcliffebeach",
+    "holmepierrepont",
+    "impeywalkknightshayes",
+    "jeskynscommunitywoodland"
   ],
   "history_attempts": {
     "armley": 1,
     "arrowvalley": 1,
     "averyhill": 1,
-    "basingstoke": 1
+    "basingstoke": 1,
+    "holywellkinggeorgevplayingfields": 1,
+    "kilkennylanecountry": 1
   },
   "event_attempts": {
     "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
@@ -114,6 +126,8 @@
     "https://www.parkrun.org.uk/aberdare/results/130/": 1,
     "https://www.parkrun.org.uk/aberdeen/results/374/": 1,
     "https://www.parkrun.org.uk/aberdeen/results/375/": 1,
-    "https://www.parkrun.org.uk/aberdeen/results/380/": 1
+    "https://www.parkrun.org.uk/aberdeen/results/380/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/392/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/395/": 1
   }
 }
