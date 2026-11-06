@@ -313,7 +313,9 @@
     "fulhampalace",
     "fulwellquarry",
     "gadebridge",
-    "ganavansands"
+    "ganavansands",
+    "gangerfarm",
+    "garvaghforest"
   ],
   "retries": {
     "aliceholt": 1,
@@ -328,6 +330,7 @@
     "ecos": 1,
     "ellon": 1,
     "festivalgreen": 1,
-    "fireservicecollege": 1
+    "fireservicecollege": 1,
+    "gateshead": 1
   }
 }
