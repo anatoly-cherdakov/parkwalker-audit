@@ -89,7 +89,18 @@
     "highcliffebeach",
     "holmepierrepont",
     "impeywalkknightshayes",
-    "jeskynscommunitywoodland"
+    "jeskynscommunitywoodland",
+    "kingswayparkurmston",
+    "ladymaryswalk",
+    "lanhydrock",
+    "llanfoistcrossing",
+    "llwybrdyffryntywinantgaredig",
+    "lostshoresurfresort",
+    "loughhead",
+    "northfarm",
+    "oakeypark",
+    "parcdewisant",
+    "pertonplayingfields"
   ],
   "history_attempts": {
     "armley": 1,
@@ -97,7 +108,8 @@
     "averyhill": 1,
     "basingstoke": 1,
     "holywellkinggeorgevplayingfields": 1,
-    "kilkennylanecountry": 1
+    "kilkennylanecountry": 1,
+    "norfolkshowgroundtrail": 1
   },
   "event_attempts": {
     "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
@@ -128,6 +140,8 @@
     "https://www.parkrun.org.uk/aberdeen/results/375/": 1,
     "https://www.parkrun.org.uk/aberdeen/results/380/": 1,
     "https://www.parkrun.org.uk/aberdeen/results/392/": 1,
-    "https://www.parkrun.org.uk/aberdeen/results/395/": 1
+    "https://www.parkrun.org.uk/aberdeen/results/395/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/433/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/444/": 1
   }
 }
