@@ -23,12 +23,32 @@
     "ancholmevalleyway",
     "andover",
     "antrim",
-    "armagh"
+    "armagh",
+    "aruwrittle",
+    "ashbournerecreationground",
+    "ashingtoncommunitywoodland",
+    "ashtoncourt",
+    "auldcathiedistrict",
+    "aviemore",
+    "aylesbury",
+    "ayr",
+    "babbsmill"
   ],
-  "history_attempts": {},
+  "history_attempts": {
+    "armley": 1,
+    "arrowvalley": 1,
+    "averyhill": 1
+  },
   "event_attempts": {
     "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/62/": 1,
-    "https://www.parkrun.org.uk/aberbeeg/results/65/": 1
+    "https://www.parkrun.org.uk/aberbeeg/results/65/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/72/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/84/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/89/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/91/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/92/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/94/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/101/": 1
   }
 }
