@@ -271,7 +271,9 @@
     "eghamorbit",
     "eglinton",
     "elderpark",
-    "elemorepark"
+    "elemorepark",
+    "elgin",
+    "ellesmereport"
   ],
   "retries": {
     "aliceholt": 1,
@@ -283,6 +285,7 @@
     "coftonpark": 1,
     "cosmestonlakes": 1,
     "dintonpastures": 1,
-    "ecos": 1
+    "ecos": 1,
+    "ellon": 1
   }
 }
