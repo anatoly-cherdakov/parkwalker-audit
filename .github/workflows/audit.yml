@@ -25,6 +25,8 @@ jobs:
     timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -46,7 +48,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           start=$SECONDS
-          original_progress=$(python -c 'import csv,json,pathlib; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); p=pathlib.Path("discovery_state.json"); d=json.loads(p.read_text()) if p.exists() else {}; print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r)+len(d.get("complete",[])))')
+          original_progress=$(python -c 'import csv; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r))')
           for round in $(seq 1 40); do
             if [ -f audit_complete.json ]; then
               echo 'HISTORICAL AUDIT ALREADY COMPLETE; stopping.'
@@ -64,8 +66,8 @@ jobs:
             if [ "$pending" -gt 0 ]; then
               python collect.py || echo 'Collector reported an error; saving available checkpoint.'
             fi
-            python discover.py || echo 'Discovery reported an error; saving available checkpoint.'
-            git add parkwalker.csv
+            # Discovery intentionally disabled: inspect only original 53 partially checked venues.
+            git add parkwalker.csv focus_venues.json
             for file in attempts.json venues.json discovery_state.json audit_complete.json; do
               if [ -f "$file" ]; then git add "$file"; fi
             done
@@ -95,7 +97,7 @@ jobs:
           done
           python -c 'import csv,collections; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print("FINAL SUMMARY:",len(r),dict(collections.Counter(x["Статус"] for x in r)))'
           if [ -f audit_complete.json ]; then echo 'ONE-TIME HISTORICAL AUDIT FINISHED'; fi
-          current_progress=$(python -c 'import csv,json,pathlib; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); p=pathlib.Path("discovery_state.json"); d=json.loads(p.read_text()) if p.exists() else {}; print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r)+len(d.get("complete",[])))')
+          current_progress=$(python -c 'import csv; r=list(csv.DictReader(open("parkwalker.csv",encoding="utf-8-sig"),delimiter=";")); print(sum(x["Статус"]!="НЕ ПРОВЕРЕНО" for x in r))')
           echo "progressed=$([ "$current_progress" -gt "$original_progress" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
           echo "PROGRESS: $original_progress -> $current_progress"
       - name: Continue audit after successful batch without depending on cron
