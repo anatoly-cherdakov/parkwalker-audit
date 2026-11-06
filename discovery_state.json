@@ -159,13 +159,16 @@
     "catton",
     "centralplymouth",
     "chaddertonhall",
-    "chalkwellbeach"
+    "chalkwellbeach",
+    "charlton",
+    "chasewater"
   ],
   "retries": {
     "aliceholt": 1,
     "ashford": 1,
     "beckton": 1,
     "bideford": 1,
-    "centrevale": 1
+    "centrevale": 1,
+    "cheadlehulme": 1
   }
 }
