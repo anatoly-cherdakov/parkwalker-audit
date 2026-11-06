@@ -67,7 +67,19 @@
     "brockshillcountrypark",
     "brookleys",
     "broughtyferryesplanade",
-    "bushy"
+    "bushy",
+    "chesterfordresearchpark",
+    "christchurchpark",
+    "claudycountrypark",
+    "cockingtoncourt",
+    "comptonabbasairfield",
+    "crathescastle",
+    "downslinkshorehambysea",
+    "drumlanrigcastle",
+    "eastholmesfield",
+    "edinburgh",
+    "elemorepark",
+    "flintcastle"
   ],
   "history_attempts": {
     "armley": 1,
@@ -95,6 +107,13 @@
     "https://www.parkrun.org.uk/aberdare/results/81/": 1,
     "https://www.parkrun.org.uk/aberdare/results/84/": 1,
     "https://www.parkrun.org.uk/aberdare/results/95/": 1,
-    "https://www.parkrun.org.uk/aberdare/results/100/": 1
+    "https://www.parkrun.org.uk/aberdare/results/100/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/110/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/119/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/120/": 1,
+    "https://www.parkrun.org.uk/aberdare/results/130/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/374/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/375/": 1,
+    "https://www.parkrun.org.uk/aberdeen/results/380/": 1
   }
 }
