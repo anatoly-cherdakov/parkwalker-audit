@@ -63,10 +63,13 @@
     "baysgarthpark",
     "beacon",
     "beaconhillcountrypark",
-    "becclesquay"
+    "becclesquay",
+    "beckenhamplace",
+    "bedfont"
   ],
   "retries": {
     "aliceholt": 1,
-    "ashford": 1
+    "ashford": 1,
+    "beckton": 1
   }
 }
