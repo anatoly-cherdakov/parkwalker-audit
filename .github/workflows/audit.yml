@@ -67,7 +67,7 @@ jobs:
               python collect.py || echo 'Collector reported an error; saving available checkpoint.'
             fi
             # Discovery intentionally disabled: inspect only original 53 partially checked venues.
-            git add parkwalker.csv focus_venues.json
+            git add parkwalker.csv
             for file in attempts.json venues.json discovery_state.json audit_complete.json; do
               if [ -f "$file" ]; then git add "$file"; fi
             done
