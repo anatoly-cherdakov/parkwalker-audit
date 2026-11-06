@@ -344,7 +344,8 @@
     "groe",
     "grovefields",
     "grovelands",
-    "guernsey"
+    "guernsey",
+    "gunnersbury"
   ],
   "retries": {
     "aliceholt": 1,
@@ -361,6 +362,8 @@
     "festivalgreen": 1,
     "fireservicecollege": 1,
     "gateshead": 1,
-    "gibraltarbotanicalgardens": 1
+    "gibraltarbotanicalgardens": 1,
+    "guildford": 1,
+    "gunpowder": 1
   }
 }
