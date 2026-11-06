@@ -595,7 +595,9 @@
     "penningtonflash",
     "penrhyn",
     "penrith",
-    "penrose"
+    "penrose",
+    "penryncampus",
+    "perryhall"
   ],
   "retries": {
     "aliceholt": 1,
@@ -622,6 +624,7 @@
     "kirkharlecourtyard": 1,
     "merthyr": 1,
     "millfield": 1,
-    "penistone": 1
+    "penistone": 1,
+    "perth": 1
   }
 }
