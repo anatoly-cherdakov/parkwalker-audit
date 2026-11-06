@@ -108,19 +108,18 @@
     "riversideballymoney",
     "rothamstedpark",
     "ruchill",
-    "southwark"
+    "southwark",
+    "averyhill",
+    "basingstoke",
+    "holywellkinggeorgevplayingfields",
+    "kilkennylanecountry",
+    "norfolkshowgroundtrail",
+    "pomeroyforest",
+    "woodhousemoor",
+    "armley",
+    "arrowvalley"
   ],
-  "history_attempts": {
-    "armley": 2,
-    "arrowvalley": 2,
-    "averyhill": 1,
-    "basingstoke": 1,
-    "holywellkinggeorgevplayingfields": 1,
-    "kilkennylanecountry": 1,
-    "norfolkshowgroundtrail": 1,
-    "pomeroyforest": 1,
-    "woodhousemoor": 1
-  },
+  "history_attempts": {},
   "event_attempts": {
     "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/62/": 1,
