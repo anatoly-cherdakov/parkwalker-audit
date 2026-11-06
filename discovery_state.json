@@ -516,7 +516,9 @@
     "merseaisland",
     "middletonwoods",
     "mildenhallhub",
-    "mileend"
+    "mileend",
+    "milfordwaterfront",
+    "millenniumcountry"
   ],
   "retries": {
     "aliceholt": 1,
@@ -541,6 +543,7 @@
     "herringtoncountry": 1,
     "hyde": 1,
     "kirkharlecourtyard": 1,
-    "merthyr": 1
+    "merthyr": 1,
+    "millfield": 1
   }
 }
