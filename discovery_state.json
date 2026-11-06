@@ -315,7 +315,9 @@
     "gadebridge",
     "ganavansands",
     "gangerfarm",
-    "garvaghforest"
+    "garvaghforest",
+    "gedling",
+    "girvanprom"
   ],
   "retries": {
     "aliceholt": 1,
@@ -331,6 +333,7 @@
     "ellon": 1,
     "festivalgreen": 1,
     "fireservicecollege": 1,
-    "gateshead": 1
+    "gateshead": 1,
+    "gibraltarbotanicalgardens": 1
   }
 }
