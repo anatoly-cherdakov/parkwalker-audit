@@ -434,7 +434,9 @@
     "kingston",
     "kingsway",
     "kingswayparkurmston",
-    "kirkcaldy"
+    "kirkcaldy",
+    "kirkwall",
+    "knowsley"
   ],
   "retries": {
     "aliceholt": 1,
@@ -457,6 +459,7 @@
     "hereford": 1,
     "heritagecoastalpatheasington": 1,
     "herringtoncountry": 1,
-    "hyde": 1
+    "hyde": 1,
+    "kirkharlecourtyard": 1
   }
 }
