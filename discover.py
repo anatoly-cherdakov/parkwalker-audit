@@ -153,6 +153,28 @@ def main():
     if DONE.exists():
         print('DISCOVERY ALREADY COMPLETE. No new/current events will be checked.',flush=True)
         return
+
+    # Venue-first mode: do not keep growing the nationwide backlog while
+    # partially verified venues still have reasonable untried/retryable rows.
+    attempts_path=Path('attempts.json')
+    attempts=json.loads(attempts_path.read_text(encoding='utf-8')) if attempts_path.exists() else {}
+    focused={}
+    for row in rows:
+        slug=urlparse(row['Ссылка']).path.strip('/').split('/')[0].lower()
+        g=focused.setdefault(slug,{'checked':0,'pending':[]})
+        if row['Статус']==UNK:
+            g['pending'].append(row)
+        else:
+            g['checked']+=1
+    pending_partial=[
+        slug for slug,g in focused.items()
+        if g['checked']>0 and g['pending']
+        and any(attempts.get(row['Ссылка'],0)<5 for row in g['pending'])
+    ]
+    if pending_partial:
+        print('DISCOVERY PAUSED: finishing',len(pending_partial),
+              'partially checked venues first.',flush=True)
+        return
     sess=requests.Session()
     sess.headers.update(HEADERS)
     if not VENUES.exists():
