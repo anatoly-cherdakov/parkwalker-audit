@@ -590,7 +590,9 @@
     "peckhamrye",
     "peel",
     "pegwellbay",
-    "penallta"
+    "penallta",
+    "pendle",
+    "penningtonflash"
   ],
   "retries": {
     "aliceholt": 1,
@@ -616,6 +618,7 @@
     "hyde": 1,
     "kirkharlecourtyard": 1,
     "merthyr": 1,
-    "millfield": 1
+    "millfield": 1,
+    "penistone": 1
   }
 }
