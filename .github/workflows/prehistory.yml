@@ -1,0 +1,70 @@
+name: Pre-parkwalker 4-year attendance (118 venues)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'collect_pre_parkwalker.py'
+      - 'historical_venues_118.json'
+      - '.github/workflows/prehistory.yml'
+  schedule:
+    - cron: '11,41 * * * *'
+
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: parkwalker-prehistory
+  cancel-in-progress: false
+jobs:
+  prehistory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Gather historical attendance in batches
+        id: collect
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          initial=$(python -c 'import csv,pathlib; p=pathlib.Path("pre_parkwalker_2018_2022.csv"); print(sum(bool(r["Участники"]) for r in csv.DictReader(open(p,encoding="utf-8-sig"),delimiter=";")) if p.exists() else 0)')
+          start=$SECONDS
+          for round in $(seq 1 30); do
+            echo "PREHISTORY ROUND $round"
+            python collect_pre_parkwalker.py
+            git add pre_parkwalker_2018_2022.csv pre_parkwalker_state.json
+            if ! git diff --cached --quiet; then
+              git commit -m "Checkpoint pre-parkwalker attendance round $round"
+              git push origin HEAD:main || {
+                echo "Conflicting commit: preserving local data rather than force-pushing"
+                exit 1
+              }
+            else
+              echo "No new data, ending current run"
+              break
+            fi
+            if [ "$((SECONDS-start))" -ge 16000 ]; then break; fi
+          done
+          python - <<'PY'
+          import csv,json,pathlib
+          r=list(csv.DictReader(open("pre_parkwalker_2018_2022.csv",encoding="utf-8-sig"),delimiter=";"))
+          state=json.loads(pathlib.Path("pre_parkwalker_state.json").read_text())
+          print("SUMMARY",len(state["discovered"]),"venues discovered",len(r),"events",
+                sum(x["Статус"]=="Проверено" for x in r),"attendance counts")
+          PY
+          current=$(python -c 'import csv; print(sum(bool(r["Участники"]) for r in csv.DictReader(open("pre_parkwalker_2018_2022.csv",encoding="utf-8-sig"),delimiter=";")))')
+          echo "progressed=$([ "$current" -gt "$initial" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - name: Continue when new attendance records were collected
+        if: ${{ success() && steps.collect.outputs.progressed == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run prehistory.yml --ref main
