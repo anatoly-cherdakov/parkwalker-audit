@@ -121,7 +121,7 @@
   ],
   "history_attempts": {},
   "event_attempts": {
-    "https://www.parkrun.org.uk/aberbeeg/results/42/": 1,
+    "https://www.parkrun.org.uk/aberbeeg/results/42/": 2,
     "https://www.parkrun.org.uk/aberbeeg/results/62/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/65/": 1,
     "https://www.parkrun.org.uk/aberbeeg/results/72/": 1,
@@ -716,6 +716,9 @@
     "https://www.parkrun.org.uk/ruchill/results/200/": 1,
     "https://www.parkrun.org.uk/southwark/results/256/": 1,
     "https://www.parkrun.org.uk/southwark/results/299/": 1,
-    "https://www.parkrun.org.uk/woodhousemoor/results/685/": 1
+    "https://www.parkrun.org.uk/woodhousemoor/results/685/": 1,
+    "https://www.parkrun.org.uk/woodhousemoor/results/704/": 1,
+    "https://www.parkrun.org.uk/woodhousemoor/results/705/": 1,
+    "https://www.parkrun.org.uk/woodhousemoor/results/720/": 1
   }
 }
